@@ -1,0 +1,22 @@
+# Database design best practices
+
+- Use well defined and consistent names for tables and columns (e.g. School, StudentCourse, CourseID ...).
+- Use singular for table names (i.e. use StudentCourse instead of StudentCourses). Table represents a collection of entities, there is no need for plural names.
+- Don’t use spaces for table names. Otherwise you will have to use ‘{‘, ‘[‘, ‘“’ etc. characters to define tables (i.e. for accesing table Student Course you will write “Student Course”. StudentCourse is much better).
+- Don’t use unnecessary prefixes or suffixes for table names (i.e. use School instead of TblSchool, SchoolTable etc.).
+- Keep passwords as encrypted for security. Decrypt them in application when required.
+- Use integer id fields for all tables. If id is not required for the time being, it may be required in the future (for association tables, indexing ...).
+- Choose columns with the integer data type (or its variants) for indexing. varchar column indexing will cause performance problems.
+- Use bit fields for boolean values. Using integer or varchar is unnecessarily storage consuming. Also start those column names with “Is”.
+- Provide authentication for database access. Don’t give admin role to each user.
+- Avoid “select *” queries until it is really needed. Use "select [required_columns_list]" for better performance.
+- Use an ORM (object relational mapping) framework (i.e. hibernate, iBatis ...) if application code is big enough. Performance issues of ORM frameworks can be handled by detailed configuration parameters.
+- Partition big and unused/rarely used tables/table parts to different physical storages for better query performance.
+- For big, sensitive and mission critic database systems, use disaster recovery and security services like failover clustering, auto backups, replication etc.
+- Use constraints (foreign key, check, not null ...) for data integrity. Don’t give whole control to application code.
+- Lack of database documentation is evil. Document your database design with ER schemas and instructions. Also write comment lines for your triggers, stored procedures and other scripts.
+- Use indexes for frequently used queries on big tables. Analyser tools can be used to determine where indexes will be defined. For queries retrieving a range of rows, clustered indexes are usually better. For point queries, non-clustered indexes are usually better.
+- Database server and the web server must be placed in different machines. This will provide more security (attackers can’t access data directly) and server CPU and memory performance will be better because of reduced request number and process usage.
+- Image and blob data columns must not be defined in frequently queried tables because of performance issues. These data must be placed in separate tables and their pointer can be used in queried tables.
+- Normalization must be used as required, to optimize the performance. Under-normalization will cause excessive repetition of data, over-normalization will cause excessive joins across too many tables. Both of them will get worse performance.
+- Spend time for database modeling and design as much as required. Otherwise saved(!) design time will cause (saved(!) design time) * 10/100/1000 maintenance and re-design time.
